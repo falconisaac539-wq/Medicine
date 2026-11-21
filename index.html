@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Centro Médico Salud+</title>
+<style>
+  :root{
+    --verde:#0f9d8a;
+    --verde-osc:#0a5f69;
+    --azul:#1d6fb8;
+    --claro:#eef8f7;
+    --texto:#17323a;
+    --borde:#cfe7e4;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    display:flex;
+    min-height:100vh;
+    font-family:Arial,'Segoe UI',sans-serif;
+    color:var(--texto);
+    background:var(--claro);
+  }
+
+  /* ---------- MENÚ VERTICAL ---------- */
+  .menu{
+    width:270px;
+    flex-shrink:0;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+    padding:24px 16px;
+    color:#fff;
+    background:linear-gradient(180deg,var(--verde-osc),var(--verde));
+    box-shadow:3px 0 14px rgba(10,95,105,.25);
+  }
+  .logo{display:flex;align-items:center;gap:12px;font-weight:700;font-size:1.1rem;line-height:1.2}
+  .logo .cruz{
+    width:42px;height:42px;border-radius:12px;
+    display:grid;place-items:center;
+    font-size:1.5rem;
+    background:#fff;
+  }
+  .menu ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+  .menu button{
+    width:100%;
+    text-align:left;
+    padding:13px 14px;
+    font:inherit;
+    font-size:.95rem;
+    color:#fff;
+    cursor:pointer;
+    background:transparent;
+    border:1px solid rgba(255,255,255,.35);
+    border-radius:10px;
+    transition:background .2s,transform .2s;
+  }
+  .menu button small{display:block;margin-top:3px;font-size:.72rem;opacity:.8}
+  .menu button:hover{background:rgba(255,255,255,.15);transform:translateX(3px)}
+  .menu button:focus-visible{outline:2px solid #fff;outline-offset:2px}
+  .menu button.activo{background:#fff;color:var(--verde-osc);font-weight:600;border-color:#fff}
+  .pie{margin-top:auto;font-size:.75rem;text-align:center;opacity:.8}
+
+  /* ---------- CONTENIDO ---------- */
+  main{flex:1;min-width:0;padding:34px 36px}
+  section{display:none;max-width:760px}
+  section.visible{display:block}
+  h1{font-size:1.9rem;color:var(--verde-osc);margin-bottom:10px}
+  h2{font-size:1.5rem;color:var(--verde-osc);margin-bottom:4px}
+  .etiqueta{font-size:.8rem;font-weight:600;letter-spacing:1px;color:var(--azul);margin-bottom:16px;text-transform:uppercase}
+  p{line-height:1.55}
+  code{font-size:.9em;color:var(--verde-osc)}
+  .tarjeta{
+    margin-top:18px;
+    padding:22px;
+    background:#fff;
+    border:1px solid var(--borde);
+    border-radius:14px;
+    box-shadow:0 4px 14px rgba(15,157,138,.1);
+  }
+  .tarjetas{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:20px}
+  .tarjetas .tarjeta{margin-top:0}
+  .tarjeta h3{color:var(--verde);margin-bottom:6px;font-size:1.05rem}
+
+  .calcular{
+    padding:12px 24px;
+    font:inherit;
+    font-weight:600;
+    color:#fff;
+    cursor:pointer;
+    background:var(--verde);
+    border:0;
+    border-radius:8px;
+    transition:background .2s;
+  }
+  .calcular:hover{background:var(--verde-osc)}
+  .resultado{
+    margin-top:18px;
+    padding:14px 16px;
+    min-height:52px;
+    font-size:1.05rem;
+    background:var(--claro);
+    border-left:5px solid var(--verde);
+    border-radius:8px;
+  }
+  .resultado b{color:var(--verde-osc);font-size:1.25rem}
+  .resultado.error{border-left-color:#d64545;background:#fdeeee}
+  .nota{margin-top:14px;font-size:.85rem;color:#4b6b73}
+
+  table{width:100%;margin-top:16px;border-collapse:collapse;font-size:.9rem}
+  th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--borde)}
+  th{color:var(--verde-osc)}
+
+  /* En el celular el menú pasa arriba, pero los botones siguen uno debajo del otro */
+  @media (max-width:760px){
+    body{flex-direction:column}
+    .menu{width:100%;padding:14px;gap:12px}
+    .pie{display:none}
+    main{padding:22px 16px}
+  }
+</style>
+</head>
+<body>
+
+<!-- MENÚ VERTICAL -->
+<nav class="menu" aria-label="Menú principal">
+  <div class="logo"><span class="cruz">⚕️</span><span>Centro Médico<br>Salud+</span></div>
+  <ul>
+    <li><button type="button" class="activo" data-seccion="inicio">🏥 Inicio</button></li>
+    <li><button type="button" data-seccion="area">🔬 Área de una lesión<small>Página 97</small></button></li>
+    <li><button type="button" data-seccion="imc">⚖️ Índice de masa corporal<small>Página 98</small></button></li>
+  </ul>
+  <p class="pie">Funciones que devuelven resultados</p>
+</nav>
+
+<main>
+
+  <!-- INICIO -->
+  <section id="inicio" class="visible">
+    <h1>Bienvenido al Centro Médico Salud+</h1>
+    <p>La medicina es la ciencia que estudia la salud, previene las enfermedades y busca curarlas. Los médicos usan mediciones y cálculos todos los días para tomar buenas decisiones. Aquí tienes dos herramientas sencillas que lo muestran.</p>
+    <div class="tarjetas">
+      <div class="tarjeta">
+        <h3>🔬 Área de una lesión</h3>
+        <p>Los médicos miden heridas y manchas en la piel para ver si se curan. Si la lesión es redonda, su tamaño se calcula con el área de un círculo.</p>
+      </div>
+      <div class="tarjeta">
+        <h3>⚖️ Índice de masa corporal</h3>
+        <p>El IMC relaciona el peso con la estatura y ayuda a saber si una persona está en un peso saludable.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ÁREA (pág. 97) -->
+  <section id="area">
+    <h2>Funciones que devuelven resultados</h2>
+    <p class="etiqueta">Página 97 · Área de una lesión circular</p>
+    <p>Presiona el botón y escribe el radio de la lesión (la mitad de su ancho, en centímetros) en la ventanita que aparece. La función <code>calcularAreaCirculo(radio)</code> regresa el área.</p>
+    <div class="tarjeta">
+      <button type="button" class="calcular" onclick="ejercicioArea()">Calcular área</button>
+      <div class="resultado" id="resArea" aria-live="polite">El resultado aparecerá aquí.</div>
+    </div>
+  </section>
+
+  <!-- IMC (pág. 98) -->
+  <section id="imc">
+    <h2>Funciones definidas por el usuario</h2>
+    <p class="etiqueta">Página 98 · Índice de masa corporal</p>
+    <p>Presiona el botón y escribe tu peso y tu estatura en las ventanitas que aparecen. La función <code>calcularIMC(peso, altura)</code> regresa el IMC y se te dice cuál es tu estado de salud corporal.</p>
+    <div class="tarjeta">
+      <button type="button" class="calcular" onclick="ejercicioIMC()">Calcular IMC</button>
+      <div class="resultado" id="resIMC" aria-live="polite">El resultado aparecerá aquí.</div>
+      <table>
+        <tr><th>IMC</th><th>Estado</th></tr>
+        <tr><td>Menos de 18.5</td><td>Bajo peso</td></tr>
+        <tr><td>18.5 a 24.9</td><td>Peso normal</td></tr>
+        <tr><td>25 a 29.9</td><td>Sobrepeso</td></tr>
+        <tr><td>30 a 34.9</td><td>Obesidad moderada</td></tr>
+        <tr><td>35 a 39.9</td><td>Obesidad severa</td></tr>
+        <tr><td>40 o más</td><td>Obesidad muy severa</td></tr>
+      </table>
+      <p class="nota">Es solo una guía. Para un diagnóstico, consulta a un médico.</p>
+    </div>
+  </section>
+
+</main>
+
+<script type="text/javascript">
+  // Muestra el texto en el recuadro de resultado
+  // (aquí sustituye al document.write del libro, porque ese borraría el menú)
+  function escribir(idCaja, html, esError) {
+    var caja = document.getElementById(idCaja);
+    caja.innerHTML = html;
+    caja.className = esError ? "resultado error" : "resultado";
+  }
+
+  // ================= PÁGINA 97: ÁREA DEL CÍRCULO =================
+  function calcularAreaCirculo(radio) {
+     var area = Math.PI * radio * radio; //calcula el área del círculo
+     var area2 = area.toFixed(2); // lo ajusta a 2 decimales
+     return area2; // aquí regresa el área ya calculada
+  }
+
+  function ejercicioArea() {
+     radio = prompt("Dame el valor del radio del círculo (en cm):", "");
+
+     if (radio === null || radio.trim() === "" || isNaN(radio.replace(",", ".")) || radio.replace(",", ".") <= 0) {
+        escribir("resArea", "No aplica con ese radio. Escribe un número mayor que 0.", true);
+     } else {
+        radio = radio.replace(",", ".");
+        // areaCirculo recibe el valor calculado
+        var areaCirculo = calcularAreaCirculo(radio);
+        escribir("resArea", "El área del círculo es: <b>" + areaCirculo + " cm²</b>");
+     }
+  }
+
+  // ================= PÁGINA 98: ÍNDICE DE MASA CORPORAL =================
+  //Indice de masa corporal (IMC) = peso / altura (al cuadrado)
+  //funcion para calcular el IMC
+  function calcularIMC(peso, altura) {
+     return peso / Math.pow(altura, 2);
+  }
+
+  function ejercicioIMC() {
+     peso = prompt("Cuanto pesas (en kg): ", ""); //en kg
+     if (peso === null) { escribir("resIMC", "No aplica con ese peso o estatura", true); return; }
+     altura = prompt("Cuanto mides (en metros, ejemplo 1.70): ", ""); //en metros
+     if (altura === null) { escribir("resIMC", "No aplica con ese peso o estatura", true); return; }
+
+     peso = peso.replace(",", ".");
+     altura = altura.replace(",", ".");
+
+     //Llama a la función IMC con sus dos parámetros
+     var IMC = Math.round(calcularIMC(peso, altura));
+
+     //Ahora evalua cual es el IMC que tienes
+     if (IMC > 0 && IMC < 18.5) {
+        escribir("resIMC", "El IMC es <b>" + IMC + "</b> Tienes bajo peso");
+     } else if (IMC >= 18.5 && IMC < 24.9) {
+        escribir("resIMC", "El IMC es <b>" + IMC + "</b> Tienes un peso normal");
+     } else if (IMC >= 25 && IMC < 29.99) {
+        escribir("resIMC", "El IMC es <b>" + IMC + "</b> Tienes sobrepeso");
+     } else if (IMC >= 30 && IMC < 34.99) {
+        escribir("resIMC", "El IMC es <b>" + IMC + "</b> Tienes obesidad moderada");
+     } else if (IMC >= 35 && IMC < 39.9) {
+        escribir("resIMC", "El IMC es <b>" + IMC + "</b> Tienes obesidad severa");
+     } else if (IMC >= 40 && isFinite(IMC)) {
+        escribir("resIMC", "El IMC es <b>" + IMC + "</b> Tienes obesidad muy severa");
+     } else {
+        escribir("resIMC", "No aplica con ese peso o estatura", true);
+     }
+  }
+
+  // ================= MENÚ VERTICAL =================
+  var botones = document.querySelectorAll(".menu button");
+  var secciones = document.querySelectorAll("main section");
+  for (var i = 0; i < botones.length; i++) {
+    botones[i].addEventListener("click", function () {
+      var destino = this.getAttribute("data-seccion");
+      for (var j = 0; j < botones.length; j++) { botones[j].classList.remove("activo"); }
+      for (var k = 0; k < secciones.length; k++) { secciones[k].classList.remove("visible"); }
+      this.classList.add("activo");
+      document.getElementById(destino).classList.add("visible");
+    });
+  }
+</script>
+
+</body>
+</html>
